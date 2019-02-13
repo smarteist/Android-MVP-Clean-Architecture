@@ -6,6 +6,7 @@ import com.smarteist.mrnews.data.source.NewsRepository;
 import com.smarteist.mrnews.util.ChromeTabsUtils.ChromeTabsWrapper;
 import com.smarteist.mrnews.util.Constants;
 import com.smarteist.mrnews.views.fragments.NewsContracts;
+import com.smarteist.mrnews.views.fragments.NewsFragment;
 import com.smarteist.mrnews.views.fragments.NewsPresenter;
 
 import org.junit.Before;
@@ -21,7 +22,6 @@ import io.reactivex.disposables.CompositeDisposable;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -36,7 +36,7 @@ public class NewsPresenterTest {
     private ChromeTabsWrapper mChromeTabsWrapper;
 
     @Mock
-    private NewsContracts.View mNewsView;
+    private NewsFragment mNewsView;
 
     @Captor
     private ArgumentCaptor<NewsDataSource.LoadNewsCallback> mLoadNewsCallbackCaptor;
@@ -49,7 +49,7 @@ public class NewsPresenterTest {
         MockitoAnnotations.initMocks(this);
 
         mNewsPresenter = new NewsPresenter(mNewsRepository, new CompositeDisposable(), mChromeTabsWrapper);
-        mNewsPresenter.subscribe(mNewsView);
+        mNewsPresenter.attach(mNewsView);
     }
 
     /**

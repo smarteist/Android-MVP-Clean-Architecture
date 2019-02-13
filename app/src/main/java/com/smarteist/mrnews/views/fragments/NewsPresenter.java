@@ -26,7 +26,7 @@ public class NewsPresenter extends NewsContracts.Presenter {
     private final ChromeTabsWrapper mTabsWrapper;
 
     @Inject
-    NewsPresenter(NewsRepository newsRepository, CompositeDisposable disposable,
+    public NewsPresenter(NewsRepository newsRepository, CompositeDisposable disposable,
                   ChromeTabsWrapper tabsWrapper) {
         disposables = disposable;
         mNewsRepository = newsRepository;
