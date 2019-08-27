@@ -24,7 +24,7 @@ public interface NewsContracts {
         void getImageLoaderService(Picasso picasso);
     }
 
-    abstract class Presenter extends BaseContracts.Presenter<NewsFragment> {
+    abstract class Presenter implements BaseContracts.Presenter<NewsFragment> {
 
         abstract void loadNews(String category);
 

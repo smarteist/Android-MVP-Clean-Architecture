@@ -2,7 +2,7 @@ package com.smarteist.mrnews.di;
 
 
 
-import com.smarteist.mrnews.Application;
+import com.smarteist.mrnews.App;
 import com.smarteist.mrnews.data.source.remote.NewsService;
 import com.smarteist.mrnews.di.modules.AppModule;
 import com.smarteist.mrnews.di.modules.ActivityBindingModule;
@@ -29,13 +29,13 @@ import dagger.android.support.AndroidSupportInjectionModule;
         UtilityModule.class,
         ActivityBindingModule.class
 })
-public interface AppComponent extends AndroidInjector<Application> {
+public interface AppComponent extends AndroidInjector<App> {
 
     NewsService getNewsService();
 
     // we can now do DaggerAppComponent.builder().application(this).build().inject(this),
     // never having to instantiate any modules or say which module we are passing the application to.
-    // Application will just be provided into our app graph
+    // App will just be provided into our app graph
 
     @Component.Builder
     interface Builder {

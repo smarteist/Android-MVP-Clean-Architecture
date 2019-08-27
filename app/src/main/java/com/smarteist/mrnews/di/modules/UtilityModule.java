@@ -24,8 +24,8 @@ public class UtilityModule {
 
     @Provides
     @ApplicationScoped
-    OnlineChecker onlineChecker(ConnectivityManager cm) {
-        return new DefaultOnlineChecker(cm);
+    OnlineChecker onlineChecker(Application app) {
+        return new DefaultOnlineChecker(app);
     }
 
     @ApplicationScoped

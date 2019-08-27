@@ -19,6 +19,8 @@ import javax.inject.Inject;
 
 /**
  * Lightweight Activity in which NewsFragment emerges from
+ * In this case we don't need presenter and contracts for this
+ * activity.
  */
 
 public class NewsActivity extends BaseActivity {
@@ -49,10 +51,10 @@ public class NewsActivity extends BaseActivity {
         }
 
         // Set up fragment
-        NewsFragment fragment = (NewsFragment) getFragmentManager().findFragmentById(R.id.contentFrame);
+        NewsFragment fragment = (NewsFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
         if (fragment == null) {
             fragment = injectedFragment;
-            ActivityUtils.addFragmentToActivity(getFragmentManager(), fragment, R.id.contentFrame);
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.contentFrame);
         }
     }
 

@@ -1,7 +1,5 @@
 package com.smarteist.mrnews;
 
-import android.os.Bundle;
-
 /**
  * Created by Ali Hosseini on 6/24/2018.
  */
@@ -9,35 +7,33 @@ public interface BaseContracts {
 
     interface View<T extends BaseContracts.Presenter> {
 
-        void initViews();
+        String TAG = "View !!! -> ";
+
+        void initViews(android.view.View parentRoot);
 
         T getPresenter();
 
     }
 
-    abstract class Presenter<T extends BaseContracts.View> {
+    interface Presenter<T extends BaseContracts.View> {
 
-        protected T view;
+        String TAG = "Presenter !!! -> ";
 
-        public void attach(T view) {
-            this.view = view;
-        }
+        void attach(T view);
 
-        public void detach() {
-            this.view = null;
-        }
+        void detach();
 
-        public T getView() {
-            return view;
-        }
+        T getView();
 
-        public abstract void viewCreated();
+        void onViewCreated(android.view.View root);
 
-        public abstract void viewResume();
+        void onViewCreated(android.app.Activity root);
 
-        public abstract void viewStopped();
+        void onViewResume();
 
-        public abstract void viewDestroyed();
+        void onViewStopped();
+
+        void onViewDestroyed();
     }
 
 }

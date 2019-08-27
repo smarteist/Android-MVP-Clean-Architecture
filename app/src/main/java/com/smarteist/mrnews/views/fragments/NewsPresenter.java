@@ -1,5 +1,8 @@
 package com.smarteist.mrnews.views.fragments;
 
+import android.app.Activity;
+import android.view.View;
+
 import com.smarteist.mrnews.data.models.News;
 import com.smarteist.mrnews.data.source.NewsDataSource;
 import com.smarteist.mrnews.data.source.NewsRepository;
@@ -16,14 +19,13 @@ import javax.inject.Inject;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 @ActivityScoped
 public class NewsPresenter extends NewsContracts.Presenter {
 
     private final NewsRepository mNewsRepository;
     private CompositeDisposable disposables;
     private final ChromeTabsWrapper mTabsWrapper;
+    private NewsFragment view;
 
     @Inject
     public NewsPresenter(NewsRepository newsRepository, CompositeDisposable disposable,
@@ -116,6 +118,11 @@ public class NewsPresenter extends NewsContracts.Presenter {
     }
 
     @Override
+    public void attach(NewsFragment view) {
+        this.view = view;
+    }
+
+    @Override
     public void detach() {
 
         mTabsWrapper.unbindCustomTabsService();
@@ -125,24 +132,35 @@ public class NewsPresenter extends NewsContracts.Presenter {
     }
 
     @Override
-    public void viewCreated() {
+    public NewsFragment getView() {
+        return null;
+    }
+
+    @Override
+    public void onViewCreated(View root) {
 
     }
 
     @Override
-    public void viewResume() {
+    public void onViewCreated(Activity root) {
 
     }
 
     @Override
-    public void viewStopped() {
+    public void onViewResume() {
 
     }
 
     @Override
-    public void viewDestroyed() {
+    public void onViewStopped() {
 
     }
+
+    @Override
+    public void onViewDestroyed() {
+
+    }
+
 
     private void notifyEspressoAppIsIdle() {
         // let's make sure the app is still marked as busy then decrement

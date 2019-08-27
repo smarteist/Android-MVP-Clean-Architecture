@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.smarteist.mrnews.BaseContracts;
+import com.smarteist.mrnews.BaseFragment;
 import com.smarteist.mrnews.data.models.News;
 import com.smarteist.mrnews.di.scopes.ActivityScoped;
 import com.smarteist.mrnews.R;
@@ -31,7 +32,7 @@ import dagger.android.DaggerFragment;
  * News Screen {@link NewsContracts.View}
  */
 @ActivityScoped
-public class NewsFragment extends DaggerFragment implements NewsContracts.View {
+public class NewsFragment extends BaseFragment implements NewsContracts.View {
     private NewsAdapter adapter;
     private TextView noNewsTv;
     private ListView listView;
@@ -103,7 +104,7 @@ public class NewsFragment extends DaggerFragment implements NewsContracts.View {
     }
 
     @Override
-    public void initViews() {
+    public void initViews(View parentRoot) {
 
     }
 
@@ -112,12 +113,11 @@ public class NewsFragment extends DaggerFragment implements NewsContracts.View {
         return mPresenter;
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
         mPresenter.attach(this);
-        mPresenter.viewResume();
+        mPresenter.onViewResume();
         adapter.setInternetAccessState(onlineChecker.isOnline());
 
         if (!onlineChecker.isOnline()) showOfflineStateMessage();
@@ -126,7 +126,7 @@ public class NewsFragment extends DaggerFragment implements NewsContracts.View {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mPresenter.viewDestroyed();
+        mPresenter.onViewDestroyed();
         mPresenter.detach();  //prevent leaking activity in
         // case presenter is orchestrating a long running task
     }
