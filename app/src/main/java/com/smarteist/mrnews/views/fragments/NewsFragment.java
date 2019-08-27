@@ -1,7 +1,9 @@
 package com.smarteist.mrnews.views.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
@@ -26,16 +28,19 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.android.DaggerFragment;
+import dagger.android.support.AndroidSupportInjection;
 
 
 /**
  * News Screen {@link NewsContracts.View}
  */
 @ActivityScoped
-public class NewsFragment extends BaseFragment implements NewsContracts.View {
+public class NewsFragment extends NewsContracts.View {
+
     private NewsAdapter adapter;
     private TextView noNewsTv;
     private ListView listView;
+    private View mRootView;
 
     @Inject
     NewsPresenter mPresenter;
@@ -61,6 +66,15 @@ public class NewsFragment extends BaseFragment implements NewsContracts.View {
     };
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (mPresenter == null) {
+            AndroidSupportInjection.inject(this);
+        }
+        mPresenter.attach(this);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -69,18 +83,25 @@ public class NewsFragment extends BaseFragment implements NewsContracts.View {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_news, container, false);
-        listView = root.findViewById(R.id.list_news);
-        noNewsTv = root.findViewById(R.id.no_news_tv);
-        noNewsTv.setVisibility(View.GONE);
-
-        listView.setAdapter(adapter);
+        if (mRootView == null) {
+            mRootView = inflater.inflate(R.layout.fragment_news, container, false);
+            mPresenter.onViewCreated(mRootView);
+        }
 
         mPresenter.loadNews(Constants.NEWS_CATEGORY_LATEST);
 
-        return root;
+        return mRootView;
+    }
+
+
+    @Override
+    public void initViews(View parentRoot) {
+        listView = parentRoot.findViewById(R.id.list_news);
+        noNewsTv = parentRoot.findViewById(R.id.no_news_tv);
+        listView.setAdapter(adapter);
+        noNewsTv.setVisibility(View.GONE);
     }
 
     @Override
@@ -103,10 +124,6 @@ public class NewsFragment extends BaseFragment implements NewsContracts.View {
         adapter.setImageLoaderService(picasso);
     }
 
-    @Override
-    public void initViews(View parentRoot) {
-
-    }
 
     @Override
     public NewsPresenter getPresenter() {
@@ -116,7 +133,6 @@ public class NewsFragment extends BaseFragment implements NewsContracts.View {
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.attach(this);
         mPresenter.onViewResume();
         adapter.setInternetAccessState(onlineChecker.isOnline());
 

@@ -25,7 +25,6 @@ public class NewsPresenter extends NewsContracts.Presenter {
     private final NewsRepository mNewsRepository;
     private CompositeDisposable disposables;
     private final ChromeTabsWrapper mTabsWrapper;
-    private NewsFragment view;
 
     @Inject
     public NewsPresenter(NewsRepository newsRepository, CompositeDisposable disposable,
@@ -117,13 +116,10 @@ public class NewsPresenter extends NewsContracts.Presenter {
         mTabsWrapper.openCustomtab(newsItem.getUrl());
     }
 
-    @Override
-    public void attach(NewsFragment view) {
-        this.view = view;
-    }
 
     @Override
     public void detach() {
+        super.detach();
 
         mTabsWrapper.unbindCustomTabsService();
 
@@ -138,12 +134,12 @@ public class NewsPresenter extends NewsContracts.Presenter {
 
     @Override
     public void onViewCreated(View root) {
-
+        super.onViewCreated(root);
     }
 
     @Override
     public void onViewCreated(Activity root) {
-
+        super.onViewCreated(root);
     }
 
     @Override

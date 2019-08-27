@@ -9,7 +9,7 @@ import android.view.animation.AnimationUtils;
 
 import java.util.Objects;
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment<T extends BaseContracts.Presenter> extends Fragment implements BaseContracts.View<T>{
 
 
     @Override

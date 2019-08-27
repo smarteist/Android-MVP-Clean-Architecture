@@ -15,8 +15,8 @@ import dagger.internal.Beta;
 
 @Beta
 @SuppressLint("Registered")
-public abstract class BaseActivity extends DaggerAppCompatActivity
-        implements DaggerApplication.ActivityLifecycleCallbacks {
+public abstract class BaseActivity<T extends BaseContracts.Presenter> extends DaggerAppCompatActivity
+        implements DaggerApplication.ActivityLifecycleCallbacks, BaseContracts.View<T> {
 
     protected App application = ContextContainer.getInstance().getApplication();
 

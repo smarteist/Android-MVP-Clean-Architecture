@@ -7,8 +7,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.smarteist.mrnews.BaseActivity;
+import com.smarteist.mrnews.BaseContracts;
 import com.smarteist.mrnews.R;
 import com.smarteist.mrnews.util.ActivityUtils;
 import com.smarteist.mrnews.util.Constants;
@@ -109,5 +111,15 @@ public class NewsActivity extends BaseActivity {
             ab.setHomeAsUpIndicator(R.drawable.ic_menu);
             ab.setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    @Override
+    public void initViews(View parentRoot) {
+        //todo
+    }
+
+    @Override
+    public BaseContracts.Presenter getPresenter() {
+        return null;
     }
 }
